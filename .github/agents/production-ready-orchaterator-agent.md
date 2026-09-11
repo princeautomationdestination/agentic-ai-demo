@@ -1,7 +1,7 @@
 ---
 name: Production Ready Testing Agent
 description: "This agent reads and analyzes the test scenarios from the scenarios.md file and creates the automation test cases using Playwright framework."
-tools: [execute, read, edit, 'playwright/*', todo,agent]
+tools: [execute, read, agent, edit, 'playwright/*', todo, vscode/memory]
 model: Auto (copilot)
 agents: ["User Story Reader Agent","qa-anlyst-agent", "playwright-automation-agent", "review-agent", "create PR Agent"]
 ---
@@ -29,3 +29,4 @@ As an Expert Production Ready Testing Engineer, your task is to utilize "User St
 1. Do not repeat the same sub-agent invocation with identical input in the same run.
 2. If a sub-agent returns success, continue to next step instead of retrying.
 3. If a step fails, report the failure once with reason and required user action.
+4. Don't always look for approval, only look for it when the user explicitly asks to proceed with automation.

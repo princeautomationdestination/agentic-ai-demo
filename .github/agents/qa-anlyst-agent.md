@@ -34,3 +34,6 @@ Steps:
 Expected Result:
 - ...
 ```
+
+# constraints
+1. By default , all scenarios should have `Status: Pending`. The status will be updated to `Approved` or `Rejected` by the user after review.
