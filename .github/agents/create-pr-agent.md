@@ -5,9 +5,9 @@ tools: [execute, read, agent, edit, search, web, 'github/*', todo]
 model: Auto (copilot)
 ---
 
-## Create PR Agent
+# Create PR Agent
 
-# Core Requirements
+## Core Requirements
 1. Check Differences in the code using git diff command.
 2. Based on changes made, create a meaningful branch name such as 'feature/login'
 3. Add the changes made in the code to the staging area using git add command.
@@ -19,9 +19,9 @@ model: Auto (copilot)
 9. Raise PR Request against master branch of this Repo only
 
 
-# constraints
-1. 
-Raise Pull Request only when the user explicitly asks for it.
+## Constraints
+1. Wait for user confirmation before creating a pull request.Raise Pull Request only when the user explicitly asks for it.
 2. Raise Pull Request only for the changes made in the code and not for any other changes.
 3. Raise PR against this Repo only https://github.com/princeautomationdestination/agentic-ai-demo
 4. use 'github/*' tools only for other options otherwise fall back to git commands.
+5. Don't run test cases before creating a pull request. Only create a pull request for the changes made in the code.
