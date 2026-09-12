@@ -2,7 +2,10 @@
   "name": "browserstack",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:scn-001": "playwright test tests/specs/scn-001-successful-login.spec.ts --project=chromium --workers=1 --reporter=line"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
