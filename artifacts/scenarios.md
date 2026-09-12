@@ -1,176 +1,161 @@
-## SCN-001: Open OrangeHRM login page successfully
-Status: Approved
-Priority: High
-Type: Positive
-Preconditions:
-- Test environment has internet access.
-- OrangeHRM demo URL is reachable.
-Steps:
-1. Launch a supported browser.
-2. Navigate to `https://opensource-demo.orangehrmlive.com/web/index.php/auth/login`.
-3. Wait for the login page to load.
-Expected Result:
-- Login page loads without server/client errors.
-- Username and Password input fields are visible.
-- Login button is visible and enabled.
+# OrangeHRM Login Manual Test Scenarios
 
-## SCN-002: Login with valid credentials and access authenticated area
-Status: Pending Clarification
-Priority: High
+Source story: `US-HRM-001` (Automate Login Flow for OrangeHRM)
+
+## Scenario List
+
+| Scenario ID | Title | Category |
+|---|---|---|
+| SCN-001 | Valid Login Redirects to Dashboard | Positive |
+| SCN-002 | Invalid Password Shows Error | Negative |
+| SCN-003 | Invalid Username Shows Error | Negative |
+| SCN-004 | Blank Username and Password Show Required Validation | Validation |
+| SCN-005 | Blank Password Shows Required Validation | Validation |
+| SCN-006 | Blank Username Shows Required Validation | Validation |
+| SCN-007 | Password Is Masked on Login Form | Validation |
+| SCN-008 | Unauthorized Dashboard URL Redirects to Login | Session/Auth |
+| SCN-009 | Logout Terminates Session and Returns to Login | Session/Auth |
+| SCN-010 | Browser Back After Logout Does Not Restore Authenticated Session | Session/Auth |
+| SCN-011 | Idle Session Timeout Forces Re-Authentication | Session/Auth |
+| SCN-012 | Consecutive Valid Logins Remain Stable Across Repeats | Positive |
+
+## Detailed Scenarios
+
+### SCN-001: Valid Login Redirects to Dashboard
 Type: Positive
 Preconditions:
-- Valid test credentials are available.
-- Login page is accessible.
+- Login page is reachable at `/web/index.php/auth/login`.
+- Valid credentials are available.
 Steps:
 1. Open the OrangeHRM login page.
-2. Enter a valid username.
-3. Enter a valid password.
-4. Click the Login button.
+2. Enter valid username and valid password.
+3. Click `Login`.
 Expected Result:
-- User is authenticated successfully.
-- User is redirected to the expected post-login page.
-- A stable post-login element is visible to confirm successful login.
+- User is redirected to the dashboard.
+- Authenticated UI elements are visible.
 
-## SCN-003: Verify username and password fields accept user input
-Status: Pending
-Priority: Medium
-Type: Positive
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Enter a sample text value in Username field.
-2. Enter a sample text value in Password field.
-Expected Result:
-- Username field displays entered text.
-- Password field accepts input and stores entered value.
-
-## SCN-004: Verify password field masks typed characters
-Status: Pending
-Priority: Medium
-Type: Positive
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Click on Password field.
-2. Type a sample password string.
-Expected Result:
-- Entered password characters are masked in the UI.
-
-## SCN-005: Login attempt with both username and password empty
-Status: Pending Clarification
-Priority: High
+### SCN-002: Invalid Password Shows Error
 Type: Negative
 Preconditions:
-- Login page is loaded.
+- Valid username and invalid password are available.
 Steps:
-1. Leave Username field blank.
-2. Leave Password field blank.
-3. Click the Login button.
+1. Open the login page.
+2. Enter valid username and invalid password.
+3. Click `Login`.
 Expected Result:
-- User is not logged in.
-- Validation message(s) are displayed for required fields.
-- User remains on login page.
+- Login is rejected.
+- `Invalid credentials` (or equivalent) message is shown.
+- User remains on the login page.
 
-## SCN-006: Login attempt with empty username and populated password
-Status: Pending Clarification
-Priority: High
+### SCN-003: Invalid Username Shows Error
 Type: Negative
 Preconditions:
-- Login page is loaded.
+- Invalid username and any password are available.
 Steps:
-1. Leave Username field blank.
-2. Enter any value in Password field.
-3. Click the Login button.
+1. Open the login page.
+2. Enter invalid username and a password.
+3. Click `Login`.
 Expected Result:
-- User is not logged in.
-- Validation message is shown for missing username.
-- User remains on login page.
+- Login is rejected.
+- `Invalid credentials` (or equivalent) message is shown.
+- User remains on the login page.
 
-## SCN-007: Login attempt with populated username and empty password
-Status: Pending Clarification
-Priority: High
-Type: Negative
+### SCN-004: Blank Username and Password Show Required Validation
+Type: Validation
 Preconditions:
-- Login page is loaded.
+- Login page is open.
 Steps:
-1. Enter any value in Username field.
-2. Leave Password field blank.
-3. Click the Login button.
+1. Keep both fields empty.
+2. Click `Login`.
 Expected Result:
-- User is not logged in.
-- Validation message is shown for missing password.
-- User remains on login page.
+- Required-field validation appears for username and password.
+- Login request is not completed.
 
-## SCN-008: Login attempt with invalid username and valid password
-Status: Pending Clarification
-Priority: High
-Type: Negative
+### SCN-005: Blank Password Shows Required Validation
+Type: Validation
 Preconditions:
-- A known valid password mapping strategy is defined for this test.
-- Login page is loaded.
-Steps:
-1. Enter an invalid username.
-2. Enter password value as per test data strategy.
-3. Click the Login button.
-Expected Result:
-- Authentication fails.
-- Error message is displayed for invalid credentials.
-- User remains on login page.
-
-## SCN-009: Login attempt with valid username and invalid password
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- A known valid username is available.
-- Login page is loaded.
+- Login page is open.
 Steps:
 1. Enter a valid username.
-2. Enter an invalid password.
-3. Click the Login button.
+2. Leave password empty.
+3. Click `Login`.
 Expected Result:
-- Authentication fails.
-- Error message is displayed for invalid credentials.
-- User remains on login page.
+- Password required validation appears.
+- User is not authenticated.
 
-## SCN-010: Login attempt with clearly invalid special-character credentials
-Status: Pending Clarification
-Priority: Medium
-Type: Negative
+### SCN-006: Blank Username Shows Required Validation
+Type: Validation
 Preconditions:
-- Login page is loaded.
+- Login page is open.
 Steps:
-1. Enter special-character-heavy input in Username (for example, `@@@###`).
-2. Enter special-character-heavy input in Password.
-3. Click the Login button.
+1. Leave username empty.
+2. Enter any password.
+3. Click `Login`.
 Expected Result:
-- Authentication fails.
-- Application handles input safely and returns controlled error feedback.
-- No crash or unhandled UI error is observed.
+- Username required validation appears.
+- User is not authenticated.
 
-## SCN-011: Verify failed login does not create authenticated session
-Status: Pending Clarification
-Priority: Medium
-Type: Negative
+### SCN-007: Password Is Masked on Login Form
+Type: Validation
 Preconditions:
-- Login page is loaded.
+- Login page is open.
 Steps:
-1. Attempt login with invalid credentials.
-2. Try to navigate directly to a known authenticated URL path.
+1. Type text in the password field.
+2. Observe visible characters in the field.
 Expected Result:
-- Access to authenticated area is denied.
-- User is redirected back to login page or shown access restriction.
+- Password characters are masked.
 
-## SCN-012: Verify login form remains usable after failed attempt
-Status: Pending
-Priority: Medium
-Type: Negative
+### SCN-008: Unauthorized Dashboard URL Redirects to Login
+Type: Session/Auth
 Preconditions:
-- Login page is loaded.
+- No active authenticated session.
 Steps:
-1. Submit invalid credentials once.
-2. Update Username and Password fields with new values.
-3. Click Login again.
+1. Directly navigate to a protected URL (for example, dashboard).
 Expected Result:
-- Input fields remain editable after failure.
-- Login form continues to accept subsequent attempts without page corruption.
+- User is redirected to login.
+- Protected content is not displayed.
+
+### SCN-009: Logout Terminates Session and Returns to Login
+Type: Session/Auth
+Preconditions:
+- User is logged in successfully.
+Steps:
+1. Click user menu.
+2. Click `Logout`.
+Expected Result:
+- User is returned to login page.
+- Session is terminated.
+
+### SCN-010: Browser Back After Logout Does Not Restore Authenticated Session
+Type: Session/Auth
+Preconditions:
+- User has logged in and then logged out.
+Steps:
+1. After logout, click browser `Back`.
+Expected Result:
+- User cannot access authenticated pages.
+- Application stays on login or redirects back to login.
+
+### SCN-011: Idle Session Timeout Forces Re-Authentication
+Type: Session/Auth
+Preconditions:
+- User is logged in.
+- Session timeout is configured in the environment.
+Steps:
+1. Stay idle until timeout period passes.
+2. Attempt to navigate or refresh.
+Expected Result:
+- Session is expired.
+- User is redirected to login and must authenticate again.
+
+### SCN-012: Consecutive Valid Logins Remain Stable Across Repeats
+Type: Positive
+Preconditions:
+- Valid credentials are available.
+Steps:
+1. Perform valid login.
+2. Logout.
+3. Repeat the login-logout cycle multiple times.
+Expected Result:
+- Each cycle completes successfully.
+- No intermittent auth failure is observed during repeats.
