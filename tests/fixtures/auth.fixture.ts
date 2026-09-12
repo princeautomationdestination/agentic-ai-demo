@@ -1,4 +1,5 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+
 import { DashboardPage } from '../pages/dashboard.page';
 import { LoginPage } from '../pages/login.page';
 
@@ -19,11 +20,17 @@ export const test = base.extend<AuthFixture>({
     await use(new DashboardPage(page));
   },
   credentials: async ({}, use) => {
-    await use({
-      username: process.env.ORANGEHRM_USERNAME ?? 'Admin',
-      password: process.env.ORANGEHRM_PASSWORD ?? 'admin123',
-    });
-  },
+    const username = process.env.ORANGEHRM_USERNAME;
+    const password = process.env.ORANGEHRM_PASSWORD;
+
+    if (!username || !password) {
+      throw new Error(
+        'Set ORANGEHRM_USERNAME and ORANGEHRM_PASSWORD environment variables before running SCN-001.'
+      );
+    }
+
+    await use({ username, password });
+  }
 });
 
-export { expect } from '@playwright/test';
+export { expect };

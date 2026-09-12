@@ -1,17 +1,19 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page, expect } from '@playwright/test';
 
 export class DashboardPage {
-  readonly heading: Locator;
-  readonly sidePanel: Locator;
+  readonly page: Page;
+  readonly dashboardHeading: Locator;
+  readonly adminLink: Locator;
 
-  constructor(private readonly page: Page) {
-    this.heading = this.page.getByRole('heading', { name: 'Dashboard' });
-    this.sidePanel = this.page.getByRole('navigation', { name: 'Sidepanel' });
+  constructor(page: Page) {
+    this.page = page;
+    this.dashboardHeading = page.getByRole('heading', { name: 'Dashboard' });
+    this.adminLink = page.getByRole('link', { name: 'Admin' });
   }
 
   async expectLoaded(): Promise<void> {
-    await expect(this.page).toHaveURL(/\/web\/index\.php\/dashboard\/index/);
-    await expect(this.heading).toBeVisible();
-    await expect(this.sidePanel.getByRole('link', { name: 'Admin' })).toBeVisible();
+    await expect(this.page).toHaveURL(/\/dashboard\/index/);
+    await expect(this.dashboardHeading).toBeVisible();
+    await expect(this.adminLink).toBeVisible();
   }
 }

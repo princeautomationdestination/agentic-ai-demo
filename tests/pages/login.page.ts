@@ -1,16 +1,32 @@
-import { expect, type Page } from '@playwright/test';
+import { type Locator, type Page, expect } from '@playwright/test';
 
 export class LoginPage {
-  constructor(private readonly page: Page) {}
+  readonly page: Page;
+  readonly usernameInput: Locator;
+  readonly passwordInput: Locator;
+  readonly loginButton: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.usernameInput = page.getByRole('textbox', { name: 'Username' });
+    this.passwordInput = page.getByRole('textbox', { name: 'Password' });
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+  }
 
   async goto(): Promise<void> {
     await this.page.goto('/web/index.php/auth/login');
-    await expect(this.page.getByRole('heading', { name: 'Login' })).toBeVisible();
+  }
+
+  async expectLoaded(): Promise<void> {
+    await expect(this.page).toHaveURL(/\/auth\/login/);
+    await expect(this.usernameInput).toBeVisible();
+    await expect(this.passwordInput).toBeVisible();
+    await expect(this.loginButton).toBeVisible();
   }
 
   async login(username: string, password: string): Promise<void> {
-    await this.page.getByRole('textbox', { name: 'Username' }).fill(username);
-    await this.page.getByRole('textbox', { name: 'Password' }).fill(password);
-    await this.page.getByRole('button', { name: 'Login' }).click();
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
   }
 }
