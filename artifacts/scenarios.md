@@ -1,176 +1,255 @@
-## SCN-001: Open OrangeHRM login page successfully
+## SCN-001: Login Page Loads with Required Controls
 Status: Approved
 Priority: High
 Type: Positive
 Preconditions:
-- Test environment has internet access.
-- OrangeHRM demo URL is reachable.
+- OrangeHRM URL is reachable from the test environment.
+- Browser and automation driver are available.
 Steps:
-1. Launch a supported browser.
+1. Launch the browser using automation.
 2. Navigate to `https://opensource-demo.orangehrmlive.com/web/index.php/auth/login`.
-3. Wait for the login page to load.
+3. Wait for page render completion.
 Expected Result:
-- Login page loads without server/client errors.
-- Username and Password input fields are visible.
-- Login button is visible and enabled.
+- Login page loads successfully.
+- Username and password fields and submit action are visible and interactable.
 
-## SCN-002: Login with valid credentials and access authenticated area
-Status: Pending Clarification
+## SCN-002: Successful Login with Valid Credentials
+Status: Pending
 Priority: High
 Type: Positive
 Preconditions:
-- Valid test credentials are available.
+- Valid test credentials are configured securely.
 - Login page is accessible.
 Steps:
-1. Open the OrangeHRM login page.
-2. Enter a valid username.
-3. Enter a valid password.
-4. Click the Login button.
+1. Open the login page.
+2. Enter valid username.
+3. Enter valid password.
+4. Submit the login form.
+5. Wait for authenticated landing page.
 Expected Result:
-- User is authenticated successfully.
-- User is redirected to the expected post-login page.
-- A stable post-login element is visible to confirm successful login.
+- Authentication succeeds.
+- User is redirected to the authorized area.
 
-## SCN-003: Verify username and password fields accept user input
+## SCN-003: Login Rejection for Invalid Username
+Status: Pending
+Priority: High
+Type: Negative
+Preconditions:
+- Login page is accessible.
+- Invalid username and any password are available as test data.
+Steps:
+1. Open the login page.
+2. Enter invalid username and a password.
+3. Submit the login form.
+Expected Result:
+- Login is denied.
+- Error feedback is displayed without application crash.
+
+## SCN-004: Login Rejection for Invalid Password
+Status: Pending
+Priority: High
+Type: Negative
+Preconditions:
+- Login page is accessible.
+- Valid username and invalid password are available as test data.
+Steps:
+1. Open the login page.
+2. Enter valid username and invalid password.
+3. Submit the login form.
+Expected Result:
+- Login is denied.
+- Error feedback is displayed without exposing sensitive details.
+
+## SCN-005: Required Field Validation for Empty Username and Password
+Status: Pending
+Priority: High
+Type: Negative
+Preconditions:
+- Login page is accessible.
+Steps:
+1. Open the login page.
+2. Keep username and password empty.
+3. Submit the login form.
+Expected Result:
+- Submission is blocked or authentication fails safely.
+- Required field validation messages appear.
+
+## SCN-006: Required Field Validation for Empty Username Only
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+Steps:
+1. Open the login page.
+2. Leave username blank.
+3. Enter any password.
+4. Submit the form.
+Expected Result:
+- Login does not proceed.
+- Username validation is shown.
+
+## SCN-007: Required Field Validation for Empty Password Only
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+Steps:
+1. Open the login page.
+2. Enter any username.
+3. Leave password blank.
+4. Submit the form.
+Expected Result:
+- Login does not proceed.
+- Password validation is shown.
+
+## SCN-008: Boundary Handling for Maximum-Length Username
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+- Username data at and above expected maximum length is available.
+Steps:
+1. Open the login page.
+2. Enter a very long username string.
+3. Enter any password.
+4. Submit the form.
+Expected Result:
+- Application handles input safely without freeze or crash.
+- Input is constrained or rejected with consistent feedback.
+
+## SCN-009: Boundary Handling for Maximum-Length Password
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+- Password data at and above expected maximum length is available.
+Steps:
+1. Open the login page.
+2. Enter valid username.
+3. Enter a very long password string.
+4. Submit the form.
+Expected Result:
+- Application handles input safely without freeze or crash.
+- Authentication response is returned in expected time.
+
+## SCN-010: Validation Against Whitespace-Only Credentials
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+Steps:
+1. Open the login page.
+2. Enter spaces in username and password fields.
+3. Submit the form.
+Expected Result:
+- Whitespace-only credentials are treated as invalid.
+- Appropriate validation or authentication error is shown.
+
+## SCN-011: Validation Against Special Characters in Credentials
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Login page is accessible.
+- Test data with special characters is available.
+Steps:
+1. Open the login page.
+2. Enter special-character-heavy username and password values.
+3. Submit the form.
+Expected Result:
+- Inputs are handled safely and consistently.
+- No script execution or UI breakage occurs.
+
+## SCN-012: Resilience During Temporary Network Interruption
+Status: Pending
+Priority: High
+Type: Negative
+Preconditions:
+- Test environment can simulate transient network loss.
+- Login automation includes timeout handling.
+Steps:
+1. Start login flow and navigate to the login page.
+2. Interrupt network before form submission or response completion.
+3. Submit credentials and observe behavior.
+4. Restore network and retry login.
+Expected Result:
+- Test fails gracefully with clear diagnostics during outage.
+- No indefinite hang occurs.
+- Flow can recover on retry after connectivity returns.
+
+## SCN-013: Resilience Under Repeated Automated Login Cycles
+Status: Pending
+Priority: High
+Type: Positive
+Preconditions:
+- Valid credentials are available.
+- Logout flow is automatable.
+Steps:
+1. Execute login with valid credentials.
+2. Confirm authenticated page.
+3. Execute logout.
+4. Repeat steps for multiple iterations.
+Expected Result:
+- Login/logout remains stable across runs.
+- No intermittent failures are observed under stable conditions.
+
+## SCN-014: Automation Compatibility in Unattended Regression Run
+Status: Pending
+Priority: High
+Type: Positive
+Preconditions:
+- Login scenario is integrated into regression suite.
+- CI or unattended runner is configured.
+Steps:
+1. Trigger regression suite in unattended mode.
+2. Monitor login execution as part of the suite.
+3. Validate suite completion state.
+Expected Result:
+- Login steps execute without manual intervention.
+- Regression run can complete with deterministic login behavior.
+
+## SCN-015: Session Persistence After Successful Login and Refresh
 Status: Pending
 Priority: Medium
 Type: Positive
 Preconditions:
-- Login page is loaded.
+- Successful login has been completed with valid credentials.
 Steps:
-1. Enter a sample text value in Username field.
-2. Enter a sample text value in Password field.
+1. Refresh the authenticated page.
+2. Navigate to another protected page.
+3. Return to dashboard or landing page.
 Expected Result:
-- Username field displays entered text.
-- Password field accepts input and stores entered value.
+- Session remains authenticated after refresh and navigation.
+- User is not redirected unexpectedly to login.
 
-## SCN-004: Verify password field masks typed characters
-Status: Pending
-Priority: Medium
-Type: Positive
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Click on Password field.
-2. Type a sample password string.
-Expected Result:
-- Entered password characters are masked in the UI.
-
-## SCN-005: Login attempt with both username and password empty
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Leave Username field blank.
-2. Leave Password field blank.
-3. Click the Login button.
-Expected Result:
-- User is not logged in.
-- Validation message(s) are displayed for required fields.
-- User remains on login page.
-
-## SCN-006: Login attempt with empty username and populated password
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Leave Username field blank.
-2. Enter any value in Password field.
-3. Click the Login button.
-Expected Result:
-- User is not logged in.
-- Validation message is shown for missing username.
-- User remains on login page.
-
-## SCN-007: Login attempt with populated username and empty password
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Enter any value in Username field.
-2. Leave Password field blank.
-3. Click the Login button.
-Expected Result:
-- User is not logged in.
-- Validation message is shown for missing password.
-- User remains on login page.
-
-## SCN-008: Login attempt with invalid username and valid password
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- A known valid password mapping strategy is defined for this test.
-- Login page is loaded.
-Steps:
-1. Enter an invalid username.
-2. Enter password value as per test data strategy.
-3. Click the Login button.
-Expected Result:
-- Authentication fails.
-- Error message is displayed for invalid credentials.
-- User remains on login page.
-
-## SCN-009: Login attempt with valid username and invalid password
-Status: Pending Clarification
-Priority: High
-Type: Negative
-Preconditions:
-- A known valid username is available.
-- Login page is loaded.
-Steps:
-1. Enter a valid username.
-2. Enter an invalid password.
-3. Click the Login button.
-Expected Result:
-- Authentication fails.
-- Error message is displayed for invalid credentials.
-- User remains on login page.
-
-## SCN-010: Login attempt with clearly invalid special-character credentials
-Status: Pending Clarification
-Priority: Medium
-Type: Negative
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Enter special-character-heavy input in Username (for example, `@@@###`).
-2. Enter special-character-heavy input in Password.
-3. Click the Login button.
-Expected Result:
-- Authentication fails.
-- Application handles input safely and returns controlled error feedback.
-- No crash or unhandled UI error is observed.
-
-## SCN-011: Verify failed login does not create authenticated session
-Status: Pending Clarification
-Priority: Medium
-Type: Negative
-Preconditions:
-- Login page is loaded.
-Steps:
-1. Attempt login with invalid credentials.
-2. Try to navigate directly to a known authenticated URL path.
-Expected Result:
-- Access to authenticated area is denied.
-- User is redirected back to login page or shown access restriction.
-
-## SCN-012: Verify login form remains usable after failed attempt
+## SCN-016: Concurrent Login Execution Isolation
 Status: Pending
 Priority: Medium
 Type: Negative
 Preconditions:
-- Login page is loaded.
+- Parallel execution infrastructure is available.
+- Isolated users or isolated sessions are configured.
 Steps:
-1. Submit invalid credentials once.
-2. Update Username and Password fields with new values.
-3. Click Login again.
+1. Run login tests concurrently across multiple workers.
+2. Capture results, collisions, and timing.
 Expected Result:
-- Input fields remain editable after failure.
-- Login form continues to accept subsequent attempts without page corruption.
+- Parallel runs do not corrupt each other sessions.
+- Failures, if any, are isolated and diagnosable per worker.
+
+## SCN-017: Credential Masking in Logs on Failed Authentication
+Status: Pending
+Priority: Medium
+Type: Negative
+Preconditions:
+- Test logging and reporting are enabled.
+Steps:
+1. Execute a failed login attempt.
+2. Review captured logs and reports.
+Expected Result:
+- Password values are masked or omitted in logs.
+- Failure details remain actionable without leaking secrets.
